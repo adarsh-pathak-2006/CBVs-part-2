@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic import TemplateView, ListView,DetailView, CreateView
+from django.views import View
 from .models import blogs
 from django.urls import reverse_lazy
 
@@ -20,9 +21,14 @@ class blog_detail_view(DetailView):
     template_name='individual.html'
     context_object_name='blogs'
 
-class createBlog(CreateView):
-     model=blogs
-     template_name='create_blog.html'
-     fields=['title', 'content']
-     success_url=reverse_lazy('create')
+class createBlog(View):
+    def get(self, request):
+        return render(request, 'create_blog.html')
+    
+    def post(self, request):
+        blogs.objects.create(
+            title=request.POST.get('title'),
+            content=request.POST.get('content'),
+        )
+        return redirect('home')
 

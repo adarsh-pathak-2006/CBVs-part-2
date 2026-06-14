@@ -4,6 +4,11 @@
 
 {% block content %}
 
-
+<form method='POST'>
+    {% csrf_token %}
+    <label>title: <input type="text" name="title"></label>
+    <label>content: <textarea name="content"></textarea></label>
+    <button type='submit'>submit</button>
+</form>
 
 {% endblock content %}
